@@ -1,0 +1,846 @@
+/* ==========================================================================
+   CSS Custom Properties & Design System
+   ========================================================================== */
+:root {
+  /* Common Palette */
+  --color-pink: #ff5e97;
+  --color-purple: #a855f7;
+  --color-blue: #00d2ff;
+  --color-chill: #38bdf8;
+  --color-normal: #a855f7;
+  --color-hype: #f43f5e;
+  
+  --font-main: 'Outfit', sans-serif;
+  --transition-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --transition-bouncy: all 0.5s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+  --border-radius-lg: 24px;
+  --border-radius-md: 16px;
+  --border-radius-sm: 12px;
+  --shadow-glow: 0 8px 32px 0 rgba(168, 85, 247, 0.2);
+
+  /* Dark Theme Default */
+  --bg-app: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #0f0c1b 100%);
+  --bg-card: rgba(26, 21, 44, 0.7);
+  --bg-input: rgba(13, 10, 24, 0.5);
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-focus: rgba(168, 85, 247, 0.5);
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-inverted: #0f172a;
+  --glass-blur: blur(20px);
+}
+
+/* Light Theme Variables */
+[data-theme="light"] {
+  --bg-app: radial-gradient(circle at 50% 0%, #f5f3ff 0%, #e0e7ff 100%);
+  --bg-card: rgba(255, 255, 255, 0.7);
+  --bg-input: rgba(241, 245, 249, 0.9);
+  --border-color: rgba(0, 0, 0, 0.08);
+  --border-focus: rgba(168, 85, 247, 0.4);
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --text-inverted: #ffffff;
+  --shadow-glow: 0 8px 32px 0 rgba(168, 85, 247, 0.1);
+}
+
+/* ==========================================================================
+   Reset & Core Styles
+   ========================================================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-main);
+  background: var(--bg-app);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 20px;
+  overflow-x: hidden;
+  position: relative;
+  transition: background 0.5s ease;
+}
+
+/* Canvas Confetti Layer */
+#confetti-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+  pointer-events: none;
+}
+
+/* Wrapper Layout */
+.app-wrapper {
+  width: 100%;
+  max-width: 580px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  z-index: 10;
+}
+
+/* ==========================================================================
+   Interactive Header
+   ========================================================================== */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo-emoji {
+  font-size: 2.5rem;
+  animation: bounce 2s infinite ease-in-out;
+  display: inline-block;
+}
+
+.app-header h1 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, var(--color-pink) 0%, var(--color-purple) 50%, var(--color-blue) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.app-header .subtitle {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.controls-area {
+  display: flex;
+  gap: 12px;
+}
+
+/* Icon Buttons Styling */
+.icon-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: var(--transition-bouncy);
+  backdrop-filter: var(--glass-blur);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.icon-btn:hover {
+  transform: scale(1.15) rotate(15deg);
+  border-color: var(--color-purple);
+  box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
+}
+
+.icon-btn:active {
+  transform: scale(0.95);
+}
+
+.icon-btn svg {
+  transition: stroke 0.3s ease;
+}
+
+.icon-btn:hover svg {
+  stroke: var(--color-pink);
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ==========================================================================
+   Reusable Card Components (Glassmorphism)
+   ========================================================================== */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: 24px;
+  backdrop-filter: var(--glass-blur);
+  box-shadow: var(--shadow-glow);
+  transition: var(--transition-smooth);
+}
+
+.card:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 12px 40px 0 rgba(168, 85, 247, 0.25);
+}
+
+/* ==========================================================================
+   Vibe Progress Section
+   ========================================================================== */
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.progress-title {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.motivational-state {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-top: 4px;
+  color: var(--text-main);
+  transition: var(--transition-smooth);
+}
+
+.progress-percentage-wrapper {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.progress-ring {
+  transform: rotate(-90deg);
+}
+
+.progress-ring__circle {
+  transition: stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  stroke-dasharray: 163.36; /* 2 * PI * r (r=26) */
+  stroke-dashoffset: 163.36;
+}
+
+.progress-percentage-text {
+  position: absolute;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.progress-bar-outer {
+  width: 100%;
+  height: 8px;
+  background: var(--bg-input);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-bar-inner {
+  height: 100%;
+  width: 0%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--color-pink) 0%, var(--color-purple) 50%, var(--color-blue) 100%);
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================================================
+   Input Form Styling
+   ========================================================================== */
+.todo-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.input-group {
+  display: flex;
+  position: relative;
+  align-items: center;
+}
+
+#todo-input {
+  width: 100%;
+  background: var(--bg-input);
+  border: 2px solid var(--border-color);
+  color: var(--text-main);
+  border-radius: var(--border-radius-md);
+  padding: 16px 64px 16px 20px;
+  font-family: var(--font-main);
+  font-size: 1.1rem;
+  font-weight: 500;
+  outline: none;
+  transition: var(--transition-smooth);
+}
+
+#todo-input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.6;
+}
+
+#todo-input:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.25);
+  transform: scale(1.01);
+}
+
+.add-btn {
+  position: absolute;
+  right: 8px;
+  background: linear-gradient(135deg, var(--color-pink) 0%, var(--color-purple) 100%);
+  border: none;
+  color: #fff;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: var(--transition-bouncy);
+  box-shadow: 0 4px 12px rgba(255, 94, 151, 0.3);
+}
+
+.add-btn:hover {
+  transform: scale(1.1) rotate(90deg);
+  box-shadow: 0 6px 20px rgba(255, 94, 151, 0.5);
+}
+
+.add-btn:active {
+  transform: scale(0.95);
+}
+
+/* Options Selector Styling */
+.options-group {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 16px;
+  align-items: flex-end;
+}
+
+@media (max-width: 480px) {
+  .options-group {
+    grid-template-columns: 1fr;
+  }
+}
+
+.select-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.select-wrapper label, .urgency-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+}
+
+#category-select {
+  background: var(--bg-input);
+  border: 2px solid var(--border-color);
+  color: var(--text-main);
+  padding: 12px 16px;
+  border-radius: var(--border-radius-sm);
+  outline: none;
+  font-family: var(--font-main);
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+#category-select:focus {
+  border-color: var(--border-focus);
+}
+
+/* Vibe Level Urgency Toggles */
+.urgency-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.urgency-toggle-group {
+  display: flex;
+  background: var(--bg-input);
+  padding: 4px;
+  border-radius: var(--border-radius-sm);
+  border: 2px solid var(--border-color);
+}
+
+.urgency-toggle-group input[type="radio"] {
+  display: none;
+}
+
+.urgency-btn {
+  flex: 1;
+  text-align: center;
+  padding: 10px 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--transition-bouncy);
+  color: var(--text-muted);
+  user-select: none;
+}
+
+/* Radio States */
+#urgency-chill:checked ~ label[for="urgency-chill"] {
+  background: rgba(56, 189, 248, 0.15);
+  color: var(--color-chill);
+  box-shadow: 0 2px 8px rgba(56, 189, 248, 0.2);
+  transform: scale(1.05);
+}
+
+#urgency-normal:checked ~ label[for="urgency-normal"] {
+  background: rgba(168, 85, 247, 0.15);
+  color: var(--color-normal);
+  box-shadow: 0 2px 8px rgba(168, 85, 247, 0.2);
+  transform: scale(1.05);
+}
+
+#urgency-hype:checked ~ label[for="urgency-hype"] {
+  background: rgba(244, 63, 94, 0.15);
+  color: var(--color-hype);
+  box-shadow: 0 2px 8px rgba(244, 63, 94, 0.2);
+  transform: scale(1.05);
+}
+
+/* ==========================================================================
+   Task Filter Tabs
+   ========================================================================== */
+.list-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filter-tabs {
+  display: flex;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 4px;
+  border-radius: var(--border-radius-md);
+  backdrop-filter: var(--glass-blur);
+}
+
+.filter-btn {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-main);
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 8px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: var(--transition-smooth);
+}
+
+.filter-btn.active {
+  background: var(--bg-input);
+  color: var(--color-pink);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.filter-btn:hover:not(.active) {
+  color: var(--text-main);
+}
+
+.text-btn {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-main);
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.text-btn:hover {
+  color: var(--color-hype);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   Task List & Dynamically Added Items
+   ========================================================================== */
+.todo-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Task Item Styling */
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-md);
+  padding: 16px 20px;
+  backdrop-filter: var(--glass-blur);
+  transition: var(--transition-bouncy);
+  animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  position: relative;
+  overflow: hidden;
+}
+
+.todo-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 4px;
+  border-radius: 4px 0 0 4px;
+  transition: var(--transition-smooth);
+}
+
+/* Border left highlight according to urgency level */
+.todo-item.level-chill::before { background: var(--color-chill); }
+.todo-item.level-normal::before { background: var(--color-normal); }
+.todo-item.level-hype::before { background: var(--color-hype); }
+
+.todo-item:hover {
+  transform: translateY(-3px) scale(1.01);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Left Area: Checkbox and Details */
+.item-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+}
+
+/* Beautiful Custom Checkbox */
+.checkbox-container {
+  display: block;
+  position: relative;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 24px;
+  width: 24px;
+  background-color: var(--bg-input);
+  border: 2px solid var(--border-color);
+  border-radius: 6px;
+  transition: var(--transition-bouncy);
+}
+
+.checkbox-container:hover input ~ .checkmark {
+  border-color: var(--color-pink);
+  transform: scale(1.1);
+}
+
+.checkbox-container input:checked ~ .checkmark {
+  background: linear-gradient(135deg, var(--color-pink) 0%, var(--color-purple) 100%);
+  border-color: transparent;
+  transform: scale(1.15) rotate(5deg);
+  animation: checkboxPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.checkbox-container .checkmark:after {
+  left: 8px;
+  top: 4px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* Task Meta Details */
+.item-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.todo-text {
+  font-size: 1.05rem;
+  font-weight: 550;
+  color: var(--text-main);
+  transition: var(--transition-smooth);
+  word-break: break-word;
+}
+
+.todo-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Badges styling */
+.badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-category {
+  background: var(--bg-input);
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+}
+
+.badge-urgency {
+  background: transparent;
+}
+
+.todo-item.level-chill .badge-urgency { color: var(--color-chill); }
+.todo-item.level-normal .badge-urgency { color: var(--color-normal); }
+.todo-item.level-hype .badge-urgency { color: var(--color-hype); }
+
+/* Completed Task state */
+.todo-item.completed {
+  opacity: 0.55;
+  transform: scale(0.98);
+}
+
+.todo-item.completed:hover {
+  transform: scale(0.98);
+  box-shadow: none;
+}
+
+.todo-item.completed .todo-text {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+.todo-item.completed::before {
+  background: var(--text-muted) !important;
+}
+
+/* Delete Button */
+.delete-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: var(--transition-bouncy);
+}
+
+.delete-btn:hover {
+  color: var(--color-hype);
+  background: rgba(244, 63, 94, 0.1);
+  transform: scale(1.2) rotate(8deg);
+}
+
+.delete-btn:active {
+  transform: scale(0.9);
+}
+
+/* Item Remove Animation class */
+.todo-item.remove-anim {
+  animation: slideOut 0.35s cubic-bezier(0.6, -0.28, 0.735, 0.045) forwards;
+}
+
+/* ==========================================================================
+   Empty State Area
+   ========================================================================== */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+  transition: var(--transition-smooth);
+}
+
+.empty-emoji {
+  font-size: 3.5rem;
+  margin-bottom: 12px;
+  animation: rotateWiggle 4s infinite ease-in-out;
+}
+
+.empty-state h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--text-main);
+}
+
+.empty-state p {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  max-width: 280px;
+}
+
+/* ==========================================================================
+   Toast Notification Styling
+   ========================================================================== */
+.toast-container {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 90%;
+  max-width: 400px;
+  pointer-events: none;
+}
+
+.toast {
+  background: rgba(255, 237, 213, 0.95); /* Light orange glass */
+  border-left: 5px solid #f97316; /* warning orange */
+  color: #7c2d12; /* dark orange/brown */
+  border-radius: var(--border-radius-sm);
+  padding: 16px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  pointer-events: auto;
+  backdrop-filter: var(--glass-blur);
+  animation: toastEntrance 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  transition: var(--transition-smooth);
+}
+
+[data-theme="dark"] .toast {
+  background: rgba(43, 20, 10, 0.9); /* Dark warm alert glass */
+  border-left: 5px solid #ea580c;
+  color: #ffedd5;
+  border-color: #ea580c;
+}
+
+.toast-emoji {
+  font-size: 1.3rem;
+}
+
+.toast.toast-exit {
+  animation: toastExit 0.3s cubic-bezier(0.6, -0.28, 0.735, 0.045) forwards;
+}
+
+/* ==========================================================================
+   CSS Animations Library
+   ========================================================================== */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-8px) scale(1.05); }
+}
+
+@keyframes checkboxPop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.35) rotate(-10deg); }
+  100% { transform: scale(1.15) rotate(5deg); }
+}
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slideOut {
+  0% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(80px) scale(0.9);
+  }
+}
+
+@keyframes toastEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(-30px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes toastExit {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.8) translateY(-20px);
+  }
+}
+
+@keyframes rotateWiggle {
+  0%, 100% { transform: rotate(0) scale(1); }
+  25% { transform: rotate(5deg) scale(1.02); }
+  75% { transform: rotate(-5deg) scale(0.98); }
+}
