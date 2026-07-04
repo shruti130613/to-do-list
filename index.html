@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List | Ride the Vibe!</title>
+    <!-- Google Fonts - Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Confetti Canvas -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <div class="app-wrapper">
+        <!-- Header Banner -->
+        <header class="app-header">
+            <div class="logo-area">
+                <span class="logo-emoji">🎉</span>
+                <div>
+                    <h1>To Do List</h1>
+                    <p class="subtitle">No stress, just vibes.</p>
+                </div>
+            </div>
+            <div class="controls-area">
+                <!-- Sound Toggle -->
+                <button id="sound-toggle" class="icon-btn" title="Toggle Sound" aria-label="Toggle Sound">
+                    <svg class="sound-on-icon" viewBox="0 0 24 24" width="22" height="22" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                    </svg>
+                    <svg class="sound-off-icon hidden" viewBox="0 0 24 24" width="22" height="22" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                        <line x1="23" y1="9" x2="17" y2="15"></line>
+                        <line x1="17" y1="9" x2="23" y2="15"></line>
+                    </svg>
+                </button>
+                <!-- Theme Toggle -->
+                <button id="theme-toggle" class="icon-btn" title="Toggle Theme" aria-label="Toggle Theme">
+                    <svg class="sun-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon hidden" viewBox="0 0 24 24" width="22" height="22" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Progress Dashboard -->
+        <section class="progress-section card">
+            <div class="progress-info">
+                <div class="progress-text-container">
+                    <span class="progress-title">Vibe Check</span>
+                    <h2 id="motivational-state" class="motivational-state">Chill mode activated 🧊</h2>
+                </div>
+                <div class="progress-percentage-wrapper">
+                    <svg class="progress-ring" width="60" height="60">
+                        <circle class="progress-ring__circle-bg" stroke="var(--border-color)" stroke-width="4"
+                            fill="transparent" r="26" cx="30" cy="30" />
+                        <circle id="progress-ring-circle" class="progress-ring__circle" stroke="url(#progress-gradient)"
+                            stroke-width="5" stroke-linecap="round" fill="transparent" r="26" cx="30" cy="30" />
+                        <defs>
+                            <linearGradient id="progress-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="var(--color-pink)" />
+                                <stop offset="50%" stop-color="var(--color-purple)" />
+                                <stop offset="100%" stop-color="var(--color-blue)" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <span id="progress-percentage-text" class="progress-percentage-text">0%</span>
+                </div>
+            </div>
+            <div class="progress-bar-outer">
+                <div id="progress-bar-inner" class="progress-bar-inner"></div>
+            </div>
+        </section>
+
+        <!-- Add Task Card -->
+        <section class="input-section card">
+            <form id="todo-form" class="todo-form" novalidate>
+                <div class="input-group">
+                    <input type="text" id="todo-input" placeholder="Buy milk before cat judges me..." autocomplete="off"
+                        maxlength="80">
+                    <button type="submit" id="add-btn" class="add-btn" aria-label="Add Task">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor"
+                            stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="options-group">
+                    <!-- Category Select -->
+                    <div class="select-wrapper">
+                        <label for="category-select">Category</label>
+                        <select id="category-select">
+                            <option value="fun">🎉 Fun / Happy Hour</option>
+                            <option value="work">💼 Work / Grinding</option>
+                            <option value="personal">🧠 Personal / Mindful</option>
+                        </select>
+                    </div>
+
+                    <!-- Urgency/Chill Level Toggle -->
+                    <div class="urgency-wrapper">
+                        <span class="urgency-label">Vibe Level</span>
+                        <div class="urgency-toggle-group">
+                            <input type="radio" name="urgency" id="urgency-chill" value="chill" checked>
+                            <label for="urgency-chill" class="urgency-btn chill" title="Chill Vibe">🧊 Chill</label>
+
+                            <input type="radio" name="urgency" id="urgency-normal" value="normal">
+                            <label for="urgency-normal" class="urgency-btn normal" title="Normal Vibe">⚡ Flow</label>
+
+                            <input type="radio" name="urgency" id="urgency-hype" value="hype">
+                            <label for="urgency-hype" class="urgency-btn hype" title="Urgent / Hyped Vibe">🔥
+                                Hype</label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </section>
+
+        <!-- Filters and List Control -->
+        <section class="list-section">
+            <div class="list-header">
+                <div class="filter-tabs">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="active">Active</button>
+                    <button class="filter-btn" data-filter="completed">Completed</button>
+                </div>
+                <button id="clear-completed-btn" class="clear-btn text-btn hidden">Clear Done</button>
+            </div>
+
+            <!-- Task List Container -->
+            <ul id="todo-list" class="todo-list">
+                <!-- Dynamic Task Items will be appended here -->
+            </ul>
+
+            <!-- Empty State -->
+            <div id="empty-state" class="empty-state">
+                <div class="empty-emoji">🏝️</div>
+                <h3>Total Chill Zone!</h3>
+                <p>No tasks here. Go grab a dynamic smoothie or add one above!</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
